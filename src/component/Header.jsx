@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom";
 const Header= ()=>{
     return(
         <div className="flex text-orange-400 bg-white shadow justify-between items-center">
@@ -7,9 +8,9 @@ const Header= ()=>{
             </div>
             <div className="">
                 <ul className="flex mx-5  ">
-                    <li className=" px-10">Home</li>
-                    <li className=" px-10">About Us </li>
-                    <li className=" px-10">Contact Us</li>
+                    <li className=" px-10"><Link to="/">Home</Link></li>
+                    <li className=" px-10"><Link to="/about">About Us</Link> </li>
+                    <li className=" px-10"><Link to="/contact">Contact Us</Link></li>
                     <li className=" px-10">Cart</li>
                 </ul>
             </div>
