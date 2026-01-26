@@ -1,6 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
+import { Link } from "react-router-dom";
+
 
 const Body = () => {
   const [restaurantList, setRestaurantList] = useState([]);
@@ -10,7 +12,7 @@ const Body = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=26.868394&lng=80.931418&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING",
+        "https://www.swiggy.com/mapi/restaurants/list/v5?offset=0&is-seo-homepage-enabled=true&lat=26.868394&lng=80.931418&carousel=true&third_party_vendor=1"
       );
       const json = await data.json();
 
@@ -19,10 +21,14 @@ const Body = () => {
           ?.restaurants || [];
       setRestaurantList(restaurents);
       setFilteredRestaurantList(restaurents);
-    };
+console.log(restaurents);
 
+    };
     fetchData();
   }, []);
+
+  
+  
 
   return (
     <div>
