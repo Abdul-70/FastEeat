@@ -6,13 +6,16 @@ import { useParams } from "react-router-dom";
 // import ItemsCard from "./ItemsCard";
 
 const RestaurantMenu = () => {
-  const { resId } = useParams();
+  
   const [resInfo, setResInfo] = useState(null);
   const [resMenu, setResMenu] = useState(null);
+  const {resId} =useParams()
+  console.log(resId);
+  
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch(RESTAURANT_MENU_API);
+      const data = await fetch(RESTAURANT_MENU_API + resId);
       const json = await data.json();
 
       const menuData = json?.data?.cards
@@ -72,7 +75,7 @@ const RestaurantMenu = () => {
   const { name, locality } = resInfo;
 
   return (
-    <div className=" w-8/12 flex items-center ">
+    <div className=" w-7/12 mx-auto my-4">
       <div>
         <h1 className="text-2xl font-bold my-2" key={resInfo.id}>
           Restaurant - {name + "| ID: " + resId}
@@ -102,7 +105,7 @@ const ItemCategory = (props) => {
   return (
     <div className=" my-2">
       <div>
-        <h2 className="border font-bold py-4">
+        <h2 className=" font-bold py-4 shadow rounded-lg ">
           {title} ({itemCards?.length})
         </h2>
         <ul className="list-disc">
@@ -115,65 +118,63 @@ const ItemCategory = (props) => {
   );
 };
 
-const NestedItemCategory = (props) => {
-  console.log(props);
-
-  const { title, categories } = props?.data ?? {};
+const NestedItemCategory = ({ data }) => {
+  const { title, categories } = data ?? {};
 
   return (
-    <div>
-      <div>
-        <h2 className="border font-bold py-4">{title} </h2>
-        <div>
-          {categories?.map((subCategory) => (
-            <div key={subCategory?.title}>
-              <h3 className="font-bold">
-                {subCategory?.title} ({subCategory?.itemCards?.length}){" "}
-              </h3>
+    <div className="bg-white shadow rounded-lg">
+      <h2 className="px-4 py-3 font-bold text-lg border-b">{title}</h2>
 
-              <ul>
-                {subCategory?.itemCards?.map((item) => (
-                  <MenuItem
-                    key={item?.card?.info?.id}
-                    menuInfo={item?.card?.info}
-                  />
-                ))}
-              </ul>
+      <div className="space-y-4 p-4">
+        {categories?.map((sub) => (
+          <div key={sub?.title}>
+            <h3 className="font-semibold text-black mb-2">
+              {sub?.title} ({sub?.itemCards?.length})
+            </h3>
+
+            <div className="divide-y">
+              {sub?.itemCards?.map((item) => (
+                <MenuItem
+                  key={item?.card?.info?.id}
+                  menuInfo={item?.card?.info}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-      {props?.category?.title}
     </div>
   );
 };
 
-const MenuItem = (props) => {
-  // console.log(props?.data);
-  const { name, defaultPrice, description, imageId, price } =
-    props?.menuInfo ?? {};
-  return (
-    <div className="flex justify-between ">
-      <div className="">
-        <li>
-          <h3 className="font-bold  text-gray-500">{name}</h3>
-          {defaultPrice && <span>-₹{(defaultPrice / 100)?.toFixed(2)}</span>}
-          {price && <span>-₹{(price / 100)?.toFixed(2)}</span>}
-          <br />
-          {description && <span>{description}</span>}
-        </li>
-      </div>
 
-      <div className="h-40 w-40">
-        {imageId && (
-          <img
-            className="h-full w-full object-fill"
-            src={MENU_ITEM_IMG + imageId}
-          />
+const MenuItem = ({ menuInfo }) => {
+  const { name, defaultPrice, price, description, imageId } = menuInfo ?? {};
+
+  return (
+    <div className="flex justify-between p-4">
+      <div className="w-9/12">
+        <h3 className="font-semibold text-gray-800">{name}</h3>
+
+        <p className="text-sm font-medium text-gray-700 mt-1">
+          ₹{((defaultPrice || price) / 100)?.toFixed(2)}
+        </p>
+
+        {description && (
+          <p className="text-sm text-gray-500 mt-1">{description}</p>
         )}
       </div>
+
+      {imageId && (
+        <img
+          className="h-28 w-28 rounded-lg object-cover"
+          src={MENU_ITEM_IMG + imageId}
+          alt={name}
+        />
+      )}
     </div>
   );
 };
+
 
 export default RestaurantMenu;

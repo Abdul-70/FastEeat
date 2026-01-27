@@ -1,6 +1,7 @@
 import React from "react";
 import Body from "./Body";
 import { CDN_URL } from "../utils/Constants";
+import App from "../App";
 const RestaurantCard = ({data}) => {
 
   const {

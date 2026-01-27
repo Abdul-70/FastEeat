@@ -6,13 +6,20 @@ const Header= ()=>{
             <div className="w-22 mx-10">
                 <img  src="https://hungryforever.net/wp-content/uploads/2016/04/first-eat-logo.jpg" alt="logo" />
             </div>
-            <div className="">
-                <ul className="flex mx-5  ">
+            <div className="flex">
+                <ul className="flex mx-5 font-semibold ">
                     <li className=" px-10"><Link to="/">Home</Link></li>
                     <li className=" px-10"><Link to="/about">About Us</Link> </li>
                     <li className=" px-10"><Link to="/contact">Contact Us</Link></li>
                     <li className=" px-10">Cart</li>
+                    
                 </ul>
+                <div className="mx-4">
+                    <button className="bg-amber-400  text-white cursor-pointer px-2 py-1 rounded">
+                        LogIn
+                    </button>
+                </div>
+
             </div>
 
         </div>

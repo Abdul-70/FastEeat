@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import { Link } from "react-router-dom";
+import RestaurantMenu from "./RestaurantMenu";
+
 
 
 const Body = () => {
@@ -15,13 +17,14 @@ const Body = () => {
         "https://www.swiggy.com/mapi/restaurants/list/v5?offset=0&is-seo-homepage-enabled=true&lat=26.868394&lng=80.931418&carousel=true&third_party_vendor=1"
       );
       const json = await data.json();
-
+      console.log(json);
+      
       const restaurents =
         json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants || [];
       setRestaurantList(restaurents);
       setFilteredRestaurantList(restaurents);
-console.log(restaurents);
+
 
     };
     fetchData();
@@ -71,7 +74,7 @@ console.log(restaurents);
       </div>
       <div className="flex flex-wrap">
         {filteredRestaurantList.map((restaurant) => (
-          <RestaurantCard key={restaurant.info.id} data={restaurant} />
+          <Link key={restaurant.info.id} to={"/restaurantMenu/"+restaurant.info.id}><RestaurantCard  data={restaurant} /></Link>
         ))}
       </div>
     </div>

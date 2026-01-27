@@ -7,6 +7,7 @@ import Header from "./component/Header";
 import Body from "./component/Body";
 import Error from "./component/Error";
 import { createBrowserRouter, Outlet } from "react-router-dom";
+
 function App() {
   return (
     <div>
