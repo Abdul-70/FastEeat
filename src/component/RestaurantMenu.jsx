@@ -4,6 +4,7 @@ import { RESTAURANT_MENU_API, MENU_ITEM_IMG } from "../utils/Constants";
 import { useParams } from "react-router-dom";
 import { addItems } from "../utils/cartSlice";
 import { useDispatch } from "react-redux";
+// import RestaurantMenuShimmer from "./RestaurantMenuShimmer";
 // import appStore from "../utils/appStore";
 
 const RestaurantMenu = () => {
@@ -60,22 +61,29 @@ const RestaurantMenu = () => {
     fetchData();
   }, []);
 
-  if (resInfo === null) return <h1>Shimmer</h1>;
+  if (resInfo === null) return <h1 className="text-center">loading...</h1>;
   const { name, locality, costForTwoMessage,cuisines,totalRatingsString} = resInfo;
   // console.log(resInfo);
   
   return (
     <div className=" w-7/12 mx-auto my-4">
       <div>
-        <h2 className="text-2xl font-bold my-2" key={resInfo.id}>
-          {name }
-        </h2>
-        <div className="bg-white rounded-lg shadow-lg  shadow-amber-300 p-5">
-            <h4 className="my-2 font-bold">⭐ {totalRatingsString +" - "+costForTwoMessage}
-            </h4>
-            <p className="underline-offset-1 my-2 font-bold text-amber-500">{cuisines.join(", ")}</p>
-            <p className="my-2 text-sm font-bold">📍{locality}</p>
-        </div>
+          <h2 className="text-2xl font-bold my-2" key={resInfo.id}>
+            {name }
+          </h2>
+         <div className="bg-white rounded-xl shadow-md border p-5 space-y-2">
+  <h4 className="font-semibold text-lg">
+    ⭐ {totalRatingsString} • {costForTwoMessage}
+  </h4>
+
+  <p className="text-sm font-medium text-amber-500">
+    {cuisines.join(", ")}
+  </p>
+
+  <p className="text-sm text-gray-600 flex items-center gap-1">
+    📍 <span>{locality}</span>
+  </p>
+</div>
 
         <div>
           {/* Menu ItemsCard */}
@@ -100,7 +108,7 @@ const ItemCategory = (props) => {
   return (
     <div className="bg-white shadow rounded-lg">
       <div>
-        <h2 className=" px-4 py-3 my-4 font-bold bg-gray-300 text-lg border-b rounded ">
+        <h2 className=" px-4 py-3 my-4 font-bold bg-gray-100 text-lg border-b rounded ">
           {title} ({itemCards?.length})
         </h2>
         <ul className="list-disc">
@@ -117,17 +125,17 @@ const NestedItemCategory = ({ data }) => {
   const { title, categories } = data ?? {};
 
   return (
-    <div className="bg-white shadow rounded-lg">
-      <h2 className="px-4 py-3 my-4 font-bold bg-gray-300 text-lg border-b">{title}</h2>
+    <div className="bg-white shadow rounded-lg ">
+      <h2 className="px-4 py-3 mt-4 font-bold bg-gray-100 text-lg border-b">{title}</h2>
 
-      <div className="space-y-4 py-2">
+      <div className="space-y-4 py-2 ">
         {categories?.map((sub) => (
           <div key={sub?.title}>
-            <h3 className="font-semibold bg-gray-200 text-black px-2 ">
+            <h3 className="font-semibold bg-gray-50 text-gray-800 px-3 ">
               {sub?.title} ({sub?.itemCards?.length})
             </h3>
 
-            <div className="divide-y">
+            <div className="divide-y ">
               {sub?.itemCards?.map((item) => (
                 <MenuItem
                   key={item?.card?.info?.id}
@@ -155,29 +163,33 @@ const NestedItemCategory = ({ data }) => {
   }
 
   return (
-    <div className="flex justify-between p-4">
-      <div className="w-9/12">
+    <div className="flex justify-between border-b p-4">
+      {/* Left */}
+      <div className="w-8/12">
         <h3 className="font-semibold text-gray-800">{name}</h3>
 
         <p className="text-sm font-medium text-gray-700 mt-1">
-          ₹{((defaultPrice ?? price ?? 0) / 100)?.toFixed(2)}
+          ₹{((defaultPrice ?? price ?? 0) / 100).toFixed(2)}
         </p>
 
         {description && (
-          <p className="text-sm text-gray-500 mt-1">{description}</p>
+          <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+            {description}
+          </p>
         )}
       </div>
 
       {imageId && (
-        <div className="">
+        <div className="relative ">
           <img
-          className="h-28 w-28 rounded-lg object-cover"
-          src={MENU_ITEM_IMG + imageId}
-          alt={name}
-        />
+            className="h-28 w-28 rounded-lg object-cover"
+            src={MENU_ITEM_IMG + imageId}
+            alt={name}
+          />
           <button
-           className=" p-2 rounded cursor-pointer bg-black
-            text-white font-semibold ml-6 mb-4 
+           className=" absolute -bottom-3   -translate-x-1/2  p-2 rounded cursor-pointer
+             font-semibold ml-14 mb-26  bg-white border shadow px-4 py-1
+               text-green-600
            "
            onClick={()=>handleAddItems(menuInfo)}>Add+
            </button>

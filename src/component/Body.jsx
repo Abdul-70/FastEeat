@@ -1,82 +1,107 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import { Link } from "react-router-dom";
-import RestaurantMenu from "./RestaurantMenu";
-
 
 
 const Body = () => {
   const [restaurantList, setRestaurantList] = useState([]);
   const [filteredRestaurantList, setFilteredRestaurantList] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    fetchRestaurants();
+  }, []);
+
+  const fetchRestaurants = async () => {
+    try {
       const data = await fetch(
-      //   "https://www.swiggy.com/mapi/restaurants/list/v5?offset=0&is-seo-homepage-enabled=true&lat=26.868394&lng=80.931418&carousel=true&third_party_vendor=1"
-      // const data = await fetch(
         "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6139&lng=77.2090&page_type=DESKTOP_WEB_LISTING"
       );
       const json = await data.json();
-      console.log(json);
-      
-      const restaurents =
+
+      const restaurants =
         json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants || [];
-      setRestaurantList(restaurents);
-      setFilteredRestaurantList(restaurents);
 
+      setRestaurantList(restaurants);
+      setFilteredRestaurantList(restaurants);
+    } catch (error) {
+      console.error("Failed to fetch restaurants", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    };
-    fetchData();
-  }, []);
+  /* 🔍 Search */
+  const handleSearch = (text) => {
+    setSearchText(text);
+    const filtered = restaurantList.filter((res) =>
+      res.info.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredRestaurantList(filtered);
+  };
 
-  
-  
+  /* ⭐ Top Rated */
+  const filterTopRated = () => {
+    const topRated = restaurantList.filter(
+      (res) => Number(res.info.avgRating) >= 4.5
+    );
+    setFilteredRestaurantList(topRated);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex flex-wrap justify-center gap-4 mt-10">
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="h-60 w-52 bg-gray-200 animate-pulse rounded-lg"
+          ></div>
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <div className="mx-2 my-2 justify-between flex">
-        <div>
+    <div className="max-w-7xl mx-auto px-4">
+
+      {/* 🔍 Search + Filter */}
+      <div className="flex flex-wrap gap-4 justify-between items-center my-6">
+        <div className="flex gap-2">
           <input
-            className="border border-gray-400 w-85 p-1 "
+            className="border border-gray-300 px-3 py-2 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-orange-400"
             type="text"
+            placeholder="Search restaurants..."
             value={searchText}
-            onChange={(e) => {
-              setSearchText(e.target.value);
-              console.log(searchText);
-            }}
+            onChange={(e) => handleSearch(e.target.value)}
           />
+
           <button
-            className="border p-2  bg-amber-400 cursor-pointer rounded text-white"
-            onClick={() => {
-              const filteredList = restaurantList.filter((e) => {
-                return e.info.name
-                  .toLowerCase()
-                  .includes(searchText.toLowerCase());
-              });
-              setFilteredRestaurantList(filteredList);
-              console.log("filteredList : " + filteredRestaurantList);
-            }}
+            className="bg-orange-500 text-white px-4 rounded-lg hover:bg-orange-600"
+            onClick={() => handleSearch(searchText)}
           >
             Search
           </button>
         </div>
 
-        <button className="border p-2 bg-amber-400 cursor-pointer rounded text-white" onClick={()=>{
-            const topRes = restaurantList.filter((res)=> 
-            res.info.avgRatingString >= 4.5)
-
-            setFilteredRestaurantList(topRes)
-        }}>
-          
-          Top Rated Restaurents
+        <button
+          className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
+          onClick={filterTopRated}
+        >
+          ⭐ Top Rated
         </button>
       </div>
-      <div className="flex flex-wrap">
+
+      {/* 🍽 Restaurant Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredRestaurantList.map((restaurant) => (
-          <Link key={restaurant.info.id} to={"/restaurantMenu/"+restaurant.info.id}><RestaurantCard  data={restaurant} /></Link>
+          <Link
+            key={restaurant.info.id}
+            to={"/restaurantMenu/" + restaurant.info.id}
+          >
+            <RestaurantCard data={restaurant} />
+          </Link>
         ))}
       </div>
     </div>
