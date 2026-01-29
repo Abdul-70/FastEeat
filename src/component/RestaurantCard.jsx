@@ -14,10 +14,10 @@ const RestaurantCard = ({data}) => {
   } = data.info
 
   return (
-    <div className="shadow cursor-pointer hover:shadow-blue-400 rounded  w-55 m-5  ">
+    <div className="shadow cursor-pointer hover:shadow-blue-400 rounded  w-50 m-2  ">
       <div className="flex justify-center">
         <img
-          className="w-50 mt-2 rounded"
+          className="w-45 mt-2 rounded"
           src={CDN_URL+ cloudinaryImageId}
           alt=""
         />
