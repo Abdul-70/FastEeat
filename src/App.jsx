@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Cart from "./component/Cart";
 
+
 function App() {
   return (
     <Provider store={appStore} >
@@ -34,6 +35,7 @@ export const AppRouter = createBrowserRouter([
       {path : "/contact", element : <Contact/>},
       {path : "/restaurantMenu/:resId", element : <RestaurantMenu/>},
       {path : "/cart", element : <Cart/>},
+      
     ]
   }
 ])

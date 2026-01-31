@@ -11,6 +11,7 @@ const RestaurantMenu = () => {
   const [resInfo, setResInfo] = useState(null);
   const [resMenu, setResMenu] = useState(null);
   const { resId } = useParams();
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,18 +105,27 @@ const ItemCategory = (props) => {
   //   console.log(props);
 
   const { title, itemCards } = props?.data ?? {};
+  const [open , setOpen] =useState(false)
 
   return (
     <div className="bg-white shadow rounded-lg">
       <div>
-        <h2 className=" px-4 py-3 my-4 font-bold bg-gray-100 text-lg border-b rounded ">
+        <div className="relative cursor-pointer" >
+           <h2 
+        onClick={()=>setOpen(!open)}
+         className=" px-4 py-3 my-4 font-bold bg-gray-100 text-lg border-b rounded ">
           {title} ({itemCards?.length})
-        </h2>
-        <ul className="list-disc">
+         <span className="absolute  right-0 pr-4"> {open ?  "▶" :"▼" }</span></h2>
+        </div>
+       
+        {open && (
+           <ul className="list-disc">
           {itemCards?.map((item) => (
             <MenuItem key={item?.card?.info?.id} menuInfo={item?.card?.info} />
           ))}
         </ul>
+        )}
+       
       </div>
     </div>
   );
@@ -123,17 +133,26 @@ const ItemCategory = (props) => {
 
 const NestedItemCategory = ({ data }) => {
   const { title, categories } = data ?? {};
+  const [open , setOpen] =useState(false)
 
   return (
     <div className="bg-white shadow rounded-lg ">
-      <h2 className="px-4 py-3 mt-4 font-bold bg-gray-100 text-lg border-b">{title}</h2>
+      <div className="relative cursor-pointer">
+        <h2 onClick={()=>setOpen(!open)} className="px-4 py-3 mt-4 font-bold cursor-pointer bg-gray-100 text-lg border-b">{title}
+          <span className="absolute  right-0 pr-4"> {open ?  "▶" :"▼" }</span>
+        </h2>
+        
+      </div>
+      
 
-      <div className="space-y-4 py-2 ">
+      {open && (
+         <div className="space-y-4 py-2 ">
         {categories?.map((sub) => (
           <div key={sub?.title}>
             <h3 className="font-semibold bg-gray-50 text-gray-800 px-3 ">
               {sub?.title} ({sub?.itemCards?.length})
             </h3>
+            
 
             <div className="divide-y ">
               {sub?.itemCards?.map((item) => (
@@ -146,6 +165,8 @@ const NestedItemCategory = ({ data }) => {
           </div>
         ))}
       </div>
+      )}
+     
     </div>
   );
 };

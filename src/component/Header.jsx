@@ -15,13 +15,14 @@ const Header = () => {
         <Link to="/" className="flex items-center gap-2">
           <img
             className="h-12 object-contain"
-            src="https://hungryforever.net/wp-content/uploads/2016/04/first-eat-logo.jpg"
+            src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
             alt="logo"
-          />
+          /><p className="text-2xl font-bold text-amber-600 font-serif tracking-wider">firstEat</p>
         </Link>
 
         {/* Nav */}
         <nav className="flex items-center gap-8 font-semibold text-gray-700">
+          
           <NavLink
             to="/"
             className={({ isActive }) =>
