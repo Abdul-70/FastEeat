@@ -105,17 +105,23 @@ const ItemCategory = (props) => {
   //   console.log(props);
 
   const { title, itemCards } = props?.data ?? {};
-  const [open , setOpen] =useState(false)
+  const [open , setOpen] =useState(title=== "Recommended")
+
+  const handleClick = ()=>{
+    if(title!=="Recommended"){
+      return setOpen((prev)=> !prev);
+    }
+  }
 
   return (
     <div className="bg-white shadow rounded-lg">
       <div>
         <div className="relative cursor-pointer" >
            <h2 
-        onClick={()=>setOpen(!open)}
+        onClick={handleClick}
          className=" px-4 py-3 my-4 font-bold bg-gray-100 text-lg border-b rounded ">
           {title} ({itemCards?.length})
-         <span className="absolute  right-0 pr-4"> {open ?  "▶" :"▼" }</span></h2>
+         {title!== "Recommended" && (<span className="absolute  right-0 pr-4"> {open ?  "▶" :"▼" }</span>)}</h2>
         </div>
        
         {open && (
@@ -172,7 +178,7 @@ const NestedItemCategory = ({ data }) => {
 };
 
 
- export const MenuItem = ({ menuInfo }) => {
+ export const MenuItem = ({ menuInfo , showAddButton=true}) => {
   const { name, defaultPrice, price, description, imageId } = menuInfo ?? {};
 
   const dispatch =useDispatch()
@@ -184,7 +190,7 @@ const NestedItemCategory = ({ data }) => {
   }
 
   return (
-    <div className="flex justify-between border-b p-4">
+    <div className="flex w-full justify-between border-b p-4">
       {/* Left */}
       <div className="w-8/12">
         <h3 className="font-semibold text-gray-800">{name}</h3>
@@ -207,13 +213,16 @@ const NestedItemCategory = ({ data }) => {
             src={MENU_ITEM_IMG + imageId}
             alt={name}
           />
-          <button
+          {showAddButton &&(
+            <button
            className=" absolute -bottom-3   -translate-x-1/2  p-2 rounded cursor-pointer
              font-semibold ml-14 mb-26  bg-white border shadow px-4 py-1
                text-green-600
            "
            onClick={()=>handleAddItems(menuInfo)}>Add+
            </button>
+          )}
+          
         </div>
         
         

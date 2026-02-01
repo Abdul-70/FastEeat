@@ -14,7 +14,7 @@ const RestaurantCard = ({data}) => {
   } = data.info
 
   return (
-    <div className="shadow cursor-pointer hover:shadow-blue-400 rounded  w-50 m-2  ">
+    <div className="shadow-md cursor-pointer hover:shadow-orange-400 rounded-md  w-50 m-2  ">
       <div className="flex justify-center">
         <img
           className="w-45 mt-2 rounded"
