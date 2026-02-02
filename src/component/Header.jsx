@@ -17,7 +17,7 @@ const Header = () => {
             className="h-12 object-contain"
             src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
             alt="logo"
-          /><p className="text-2xl font-bold text-amber-600 font-serif tracking-wider">firstEat</p>
+          /><p className="text-2xl font-bold text-amber-600  tracking-wider">fastEat</p>
         </Link>
 
         {/* Nav */}

@@ -1,8 +1,10 @@
 import React from "react";
+import Reviews from "./Review";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-gray-50 flex justify-center items-center px-4">
+    <div>
+      <div className="min-h-screen bg-gray-50 flex justify-center items-center px-4">
       <div className="max-w-3xl bg-white shadow-lg rounded-2xl p-8">
         
         <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">
@@ -48,7 +50,12 @@ const About = () => {
           Built with ❤️ using React & Tailwind CSS
         </p>
       </div>
+      </div>
+      <div>
+        {<Reviews/>}
+      </div>
     </div>
+  
   );
 };
 

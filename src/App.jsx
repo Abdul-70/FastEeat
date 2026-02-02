@@ -10,6 +10,7 @@ import { createBrowserRouter, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Cart from "./component/Cart";
+import Footer from "./component/Footer";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
     <div>
       <Header />
       <Outlet/>
+      <Footer/>
     </div>
     </Provider>
   );

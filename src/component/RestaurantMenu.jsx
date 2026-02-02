@@ -4,6 +4,7 @@ import { RESTAURANT_MENU_API, MENU_ITEM_IMG } from "../utils/Constants";
 import { useParams } from "react-router-dom";
 import { addItems } from "../utils/cartSlice";
 import { useDispatch } from "react-redux";
+import Shimmer from "./Shimmer";
 // import RestaurantMenuShimmer from "./RestaurantMenuShimmer";
 // import appStore from "../utils/appStore";
 
@@ -62,7 +63,7 @@ const RestaurantMenu = () => {
     fetchData();
   }, []);
 
-  if (resInfo === null) return <h1 className="text-center">loading...</h1>;
+  if (resInfo === null) return <h1 className="text-center">{<Shimmer/>}</h1>;
   const { name, locality, costForTwoMessage,cuisines,totalRatingsString} = resInfo;
   // console.log(resInfo);
   
