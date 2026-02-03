@@ -120,7 +120,7 @@ const ItemCategory = (props) => {
         <div className="relative cursor-pointer" >
            <h2 
         onClick={handleClick}
-         className=" px-4 py-3 my-4 font-bold bg-gray-100 text-lg border-b rounded ">
+         className=" px-4 py-3 my-4 font-bold bg-gray-50 text-lg border-b rounded ">
           {title} ({itemCards?.length})
          {title!== "Recommended" && (<span className="absolute  right-0 pr-4"> {open ?  "▶" :"▼" }</span>)}</h2>
         </div>
@@ -145,7 +145,7 @@ const NestedItemCategory = ({ data }) => {
   return (
     <div className="bg-white shadow rounded-lg ">
       <div className="relative cursor-pointer">
-        <h2 onClick={()=>setOpen(!open)} className="px-4 py-3 mt-4 font-bold cursor-pointer bg-gray-100 text-lg border-b">{title}
+        <h2 onClick={()=>setOpen(!open)} className="px-4 py-3 mt-4 font-bold cursor-pointer bg-gray-50 text-lg border-b">{title}
           <span className="absolute  right-0 pr-4"> {open ?  "▶" :"▼" }</span>
         </h2>
         

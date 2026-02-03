@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import { Link } from "react-router-dom";
+import { RESTAURANT_API } from "../utils/Constants";
 
 
 const Body = () => {
@@ -9,6 +10,7 @@ const Body = () => {
   const [searchText, setSearchText] = useState("");
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     fetchRestaurants();
   }, []);
@@ -16,7 +18,7 @@ const Body = () => {
   const fetchRestaurants = async () => {
     try {
       const data = await fetch(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6139&lng=77.2090&page_type=DESKTOP_WEB_LISTING"
+        RESTAURANT_API
       );
       const json = await data.json();
 
